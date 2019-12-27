@@ -48,11 +48,12 @@ export default {
     computed: {
         filtered() {
             const {titleee, yearFrom, yearTo, castlel} = this;
+            //wszystkie pole puste
             if (titleee == "" && yearFrom == "" && yearTo == "" && castlel == "") {
                 return json
             }
 
-
+            //pojedyncze
             else if (titleee != "" && yearFrom == "" && yearTo == "" && castlel == "") {
                 return _.filter(json, function(movie){return movie.title.toLowerCase().includes(titleee.toLowerCase())});
                 }
@@ -63,11 +64,8 @@ export default {
                 return _.filter(json, function(movie){return movie.year <= yearTo});
             }
             else if (titleee == "" && yearFrom == "" && yearTo == "" && castlel != "") {
-                /*console.log(json[7].cast[0])
-                console.log(castlel.toLowerCase())
-                console.log(json[7].cast[0].toLowerCase())*/
-
-                let rej = _.reject(json, function(m){
+                
+                /*let rej = _.reject(json, function(m){
                     return m.cast=="";
                 })
 
@@ -79,37 +77,89 @@ export default {
             
                     }
                     return false
-                    })
-                
-                //return _.filter(rej, function(movie){return movie.cast[0].toLowerCase().includes(castlel.toLowerCase())});
-                //return json
+                    })*/
+
+                    return this.rtnByCast;
             }
 
-
-            else if (titleee != "" && yearFrom != "" && yearTo == "") {
+            //po dwa
+            else if (titleee != "" && yearFrom != "" && yearTo == "" && castlel == "") {
                 let temp = _.filter(json, function(movie){return movie.title.includes(titleee)});
                 return _.filter(temp, function(movie){return movie.year >= yearFrom});
             }
-            else if (titleee == "" && yearFrom != "" && yearTo != "") {
+            else if (titleee == "" && yearFrom != "" && yearTo != "" && castlel == "") {
                 let temp = _.filter(json, function(movie){return movie.year <= yearTo});
                 return _.filter(temp, function(movie){return movie.year >= yearFrom});
             }
-            else if (titleee != "" && yearFrom == "" && yearTo != "") {
+            else if (titleee == "" && yearFrom == "" && yearTo != "" && castlel != "") {
+                let temp = this.rtnByCast;
+                return _.filter(temp, function(movie){return movie.year <= yearTo});
+            }
+            else if (titleee != "" && yearFrom == "" && yearTo != "" && castlel == "") {
                 let temp = _.filter(json, function(movie){return movie.year <= yearTo});
                 return _.filter(temp, function(movie){return movie.title.includes(titleee)});
             }
+            else if (titleee != "" && yearFrom == "" && yearTo == "" && castlel != "") {
+                let temp = this.rtnByCast;
+                return _.filter(temp, function(movie){return movie.title.includes(titleee)});
+            }
+            else if (titleee == "" && yearFrom != "" && yearTo == "" && castlel != "") {
+                let temp = this.rtnByCast;
+                return _.filter(temp, function(movie){return movie.year >= yearFrom});
+            }
 
-            else if (titleee != "" && yearFrom != "" && yearTo != "") {
+            //po trzy
+            else if (titleee != "" && yearFrom != "" && yearTo != "" && castlel == "") {
                 let temp = _.filter(json, function(movie){return movie.year <= yearTo});
                 let temp2 = _.filter(temp, function(movie){return movie.year >= yearFrom});
                 return _.filter(temp2, function(movie){return movie.title.includes(titleee)});
             }
+            else if (titleee == "" && yearFrom != "" && yearTo != "" && castlel != "") {
+                let temp = this.rtnByCast;
+                let temp2 = _.filter(temp, function(movie){return movie.year >= yearFrom});
+                return _.filter(temp2, function(movie){return movie.year <= yearTo});
+            }
+            else if (titleee != "" && yearFrom == "" && yearTo != "" && castlel != "") {
+                let temp = this.rtnByCast;
+                let temp2 = _.filter(temp, function(movie){return movie.title.includes(titleee)});
+                return _.filter(temp2, function(movie){return movie.year <= yearTo});
+            }
+            else if (titleee != "" && yearFrom != "" && yearTo == "" && castlel != "") {
+                let temp = this.rtnByCast;
+                let temp2 = _.filter(temp, function(movie){return movie.title.includes(titleee)});
+                return _.filter(temp2, function(movie){return movie.year >= yearFrom});
+            }
 
+            //wszystkie wypełnione
+            else if (titleee != "" && yearFrom != "" && yearTo != "" && castlel != "") {
+                let temp = this.rtnByCast;
+                let temp2 = _.filter(temp, function(movie){return movie.title.includes(titleee)});
+                let temp3 = _.filter(temp2, function(movie){return movie.year >= yearFrom});
+                return _.filter(temp3, function(movie){return movie.year <= yearTo});
+            }
 
             else {
+                alert("Błąd filtra");
                 return json
             }
         },
+
+        rtnByCast() {
+            console.log(this.castlel);
+            let castletet = this.castlel;
+            let rej = _.reject(json, function(m){
+                    return m.cast=="";
+                })
+                return _.filter(rej, function(movie){ 
+                    for (let x in movie.cast){
+                        if (movie.cast[x].toLowerCase().includes(castletet.toLowerCase())){
+                            return true
+                        }
+            
+                    }
+                    return false
+                    })
+        }
     },
     
     methods: {
