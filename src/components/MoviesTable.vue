@@ -5,7 +5,7 @@
         <table class="table table-sm table-bordered table-striped text-left">
             <tr><th>Tytuł</th><th>Rok</th><th>Obsada</th><th>Gatunek</th></tr>
             <tbody>
-                <tr v-for="m in filtered.slice(0,value)" v-bind:key="m.title">
+                <tr v-for="m in filtered.slice(0,value)" v-bind:key="m.titled">
                     <td>{{ m.title }}</td>
                     <td>{{ m.year }}</td>
                     <td>
@@ -63,9 +63,26 @@ export default {
                 return _.filter(json, function(movie){return movie.year <= yearTo});
             }
             else if (titleee == "" && yearFrom == "" && yearTo == "" && castlel != "") {
-                console.log(json[7].cast[1])
-                //return _.filter(json, function(movie){return movie.cast[0].toLowerCase().includes(castlel.toLowerCase())});
-                return json
+                /*console.log(json[7].cast[0])
+                console.log(castlel.toLowerCase())
+                console.log(json[7].cast[0].toLowerCase())*/
+
+                let rej = _.reject(json, function(m){
+                    return m.cast=="";
+                })
+
+                return _.filter(rej, function(movie){ 
+                    for (let x in movie.cast){
+                        if (movie.cast[x].toLowerCase().includes(castlel.toLowerCase())){
+                            return true
+                        }
+            
+                    }
+                    return false
+                    })
+                
+                //return _.filter(rej, function(movie){return movie.cast[0].toLowerCase().includes(castlel.toLowerCase())});
+                //return json
             }
 
 
