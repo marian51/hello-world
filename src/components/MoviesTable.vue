@@ -22,6 +22,7 @@
         </table>
         <div class="text-center">
             <input type="button" class="btn btn-primary" value="Więcej" v-on:click="moreMovies"/>
+            <input type="button" class="btn btn-secondary" value="Mniej" v-on:click="lessMovies"/>
         </div>
     </div>
 </template>
@@ -172,11 +173,15 @@ export default {
         updateDataTo(message) {
             this.yearTo = message;
         },
+        updateCast(message) {
+            this.castlel = message
+        },
         moreMovies() {
             this.value = this.value+10;
         },
-        updateCast(message) {
-            this.castlel = message
+        lessMovies() {
+            if (this.value>10)
+                this.value = this.value-10;
         }
     },
 
