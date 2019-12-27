@@ -22,7 +22,8 @@
             <input type="text" class="form-control" placeholder="Imię i nazwisko" v-model="movieCast"/>
         </div>
         <div class="form-group row">
-            <input type="button" class="btn btn-info col-sm-12" value="Szukaj" v-on:click="submit"/>
+            <input type="button" class="btn btn-info col-sm-6" value="Szukaj" v-on:click="submit"/>
+            <input type="button" class="btn btn-secondary col-sm-6" value="Wyczyść" v-on:click="clear"/>
         </div>
         </div>
     </form>
@@ -54,6 +55,13 @@
                 this.movieYearFrom = "";
                 this.movieYearTo = "";
                 this.movieCast = ""*/
+            },
+
+            clear() {
+                this.movieTitle = "";
+                this.movieYearFrom = "";
+                this.movieYearTo = "";
+                this.movieCast = ""
             }
         }
     }
