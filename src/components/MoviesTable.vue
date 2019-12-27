@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <search @sendTitle="updateTitle" @sendDataFrom="updateDataFrom" @sendDataTo="updateDataTo"/>
+        <search @sendTitle="updateTitle" @sendDataFrom="updateDataFrom" @sendDataTo="updateDataTo" @sendCast="updateCast"/>
         <h2 class="bg-primary text-white text-center p-3">Filmy</h2>
         <table class="table table-sm table-bordered table-striped text-left">
             <tr><th>Tytuł</th><th>Rok</th><th>Obsada</th><th>Gatunek</th></tr>
@@ -8,8 +8,15 @@
                 <tr v-for="m in filtered.slice(0,value)" v-bind:key="m.title">
                     <td>{{ m.title }}</td>
                     <td>{{ m.year }}</td>
-                    <td>{{ m.cast[0] }}</td>
-                    <td>{{ m.genres[0] }}</td>
+                    <td>
+                        <ul v-for="x in m.cast" v-bind:key="x.cast">
+                            <li>{{ x }}</li>
+                        </ul> 
+                    </td>
+                    <td>
+                        <ul v-for="x in m.genres" v-bind:key="x.cast">
+                            <li>{{ x }}</li>
+                        </ul> </td>
                 </tr>
             </tbody>
         </table>
@@ -23,12 +30,7 @@
 import json from "@/movies.json";
 import { _ } from "vue-underscore";
 import search from "./search";
-/*
-console.log(_.filter(json, function(movie){
-    return movie.year == "Caught";
-}));
-console.log(search.movieTitle);
-*/
+
 export default {
     data: function() {
         return {
@@ -36,28 +38,34 @@ export default {
             casts: json.cast,
             lol: search.movieTitle,
             titleee: "",
-            yearFrom: 1910,
+            yearFrom: 1900,
             yearTo: 2000,
-            value: 10
+            value: 10,
+            castlel: ""
         }
         
     },
     computed: {
         filtered() {
-            const {titleee, yearFrom, yearTo} = this;
-            if (titleee == "" && yearFrom == "" && yearTo == "") {
+            const {titleee, yearFrom, yearTo, castlel} = this;
+            if (titleee == "" && yearFrom == "" && yearTo == "" && castlel == "") {
                 return json
             }
 
 
-            else if (titleee != "" && yearFrom == "" && yearTo == "") {
+            else if (titleee != "" && yearFrom == "" && yearTo == "" && castlel == "") {
                 return _.filter(json, function(movie){return movie.title.toLowerCase().includes(titleee.toLowerCase())});
                 }
-            else if (titleee == "" && yearFrom != "" && yearTo == "") {
+            else if (titleee == "" && yearFrom != "" && yearTo == "" && castlel == "") {
                 return _.filter(json, function(movie){return movie.year >= yearFrom});
             }
-            else if (titleee == "" && yearFrom == "" && yearTo != "") {
+            else if (titleee == "" && yearFrom == "" && yearTo != "" && castlel == "") {
                 return _.filter(json, function(movie){return movie.year <= yearTo});
+            }
+            else if (titleee == "" && yearFrom == "" && yearTo == "" && castlel != "") {
+                console.log(json[7].cast[1])
+                //return _.filter(json, function(movie){return movie.cast[0].toLowerCase().includes(castlel.toLowerCase())});
+                return json
             }
 
 
@@ -99,6 +107,9 @@ export default {
         },
         moreMovies() {
             this.value = this.value+10;
+        },
+        updateCast(message) {
+            this.castlel = message
         }
     },
 

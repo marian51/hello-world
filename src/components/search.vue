@@ -46,9 +46,14 @@
                 this.$emit("sendTitle", this.movieTitle);
                 this.$emit("sendDataFrom", this.movieYearFrom);
                 this.$emit("sendDataTo", this.movieYearTo);
+                this.$emit("sendCast", this.movieCast);
+                
+                /*
+                //czyszczenie pól
                 this.movieTitle = "";
                 this.movieYearFrom = "";
                 this.movieYearTo = "";
+                this.movieCast = ""*/
             }
         }
     }

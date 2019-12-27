@@ -7,39 +7,7 @@
         <moviesTable />
         <movieByCast />
          <movieByGenre />
-        <!--
-        <div class="row" v-for="movie in 10" v-bind:key="movie.title">
-            <div class="col">{{movies[movie].title}}</div>
-            <div class="col-2">{{movie.year}}</div>
-        </div>
-
-
-        filtered: _.filter(json, function(movie){
-                return movie.title == "Caught";
-}),
-        filtered() {
-            var qwerty = this.titleee;
-            var searchedYearFrom = this.yearFrom;
-            var filtereddd = _.filter(json, function(movie){
-                return ( (movie.title.includes(qwerty)) || (movie.year==searchedYearFrom)) ;
-                })
-            
-            return filtereddd;
-        }
-
-
-        filtered() {
-            const {titleee, yearFrom } = this;
-            return this.movies
-            .filter(movie => movie.title.toLowerCase().indexOf(titleee.toLowerCase()) > -1 )
-            .filter(movie => movie.year == yearFrom)
-        },
         
-         _(json).chain().flatten().pluck('genres').unique().value()
-        
-        
-        
-        -->
     </div>
 </template>
 

@@ -1,9 +1,11 @@
 <template>
     <div class="container col-6 float-left">
         <h2 class="bg-warning text-white text-center p-3">Filmy według gatunku</h2>
-                <ul v-for="g in genresed.slice(0,100)" v-bind:key="g.title">
-                    <li>{{ g }}
-                        
+                <ul v-for="s in searched.slice(0,100)" v-bind:key="s.title">
+                    <li>{{ s.name }}
+                        <ul v-for="x in s.titles" v-bind:key="x.title">
+                            <li>{{ x }}</li>
+                        </ul>
                     </li>        
                 </ul>
     </div>
@@ -12,26 +14,7 @@
 <script>
 import json from "@/movies.json";
 import { _ } from "vue-underscore";
-/*
-//console.log(json[5].genres[1]);  
-let i=0;
-let tab4 = _.reject(json, function(m){
-    return m.genres=="";
-})
-let tab5 = _.uniq(_.flatten(_.map(tab4, function(m){
-    return m.genres;
-})))
-//let tab6 = _.flatten(tab5);
-//let tab7 = _.uniq(tab5);
-for (i in tab5){
-    console.log(tab5[i])
-}
 
-<ul v-for="m in rejected" v-bind:key="m.title">
-                            
-                        </ul>
-
-*/
 
 export default {
     
@@ -44,7 +27,7 @@ export default {
     computed: {
         filtered() {
             return json
-        },
+        },     
         genres() {
                     
             return json
@@ -59,18 +42,45 @@ export default {
         genresed() {
             //wycięcie z json filmów bez gatunku
             let tab2 = this.rejected;
-            let tab3 = _.flatten(tab2);
-            for(let i=0; i<10; i++){
-                //console.log(tab2[i])
-                console.log(tab3[i])
-            }
             //przeniesienie tablicy gatunków, uproszczenie i wyciągnięcie unikatów
             let unique = _.uniq(_.flatten(_.map(tab2, function(m){
                 return m.genres;
             })));
 
             return unique;
-        }
+        },
+    //spróbujmy zrobić tablicę tablic
+        searched: function() {
+            let tab = [];
+            let tab2 = [];
+            for (let g in this.genresed){
+                
+                for (let r = 0; r<10; r++) {
+                    for (let a in this.rejected[r].genres) {
+                        if (this.rejected[r].genres[a]==this.genresed[g]) {
+                           // let o = this.rejected[r]; //mozna w sumie wpisac tam tylko tytul
+                           let o = this.rejected[r].title;
+                            tab2.push(o);
+                        }
+                    }
+                }
+                tab[g]=tab2;
+                tab2=[];
+            }
+
+            const filmy = []
+
+            for (let y=0; y<41; y++) {
+                const tmp = {
+                    name: this.genresed[y],
+                    titles: tab[y]
+                }
+                filmy.push(tmp)
+            }
+            return filmy;
+            
+            
+        },
     },
     
 }
